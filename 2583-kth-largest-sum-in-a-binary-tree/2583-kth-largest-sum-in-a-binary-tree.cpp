@@ -17,36 +17,28 @@ public:
         if(k>v.size()) return -1;
         return v[v.size()-k];
     }
-    long long levelSum(vector<int>&v)
-    {
-        long long sum=0;
-        for(int i=0;i<v.size();i++)
-        {
-            sum+=v[i];
-        }
-        return sum;
-    }
+    
     long long kthLargestLevelSum(TreeNode* root, int k) {
         if(!root) return -1;
         queue<TreeNode*>qu;
-        vector<int>helper;
         vector<long long>res;
         qu.push(root);
         int level=0;
         while(!qu.empty())
         {
             int n=qu.size();
+            long long lavelSum=0;
             while(n--)
             {
                 TreeNode* temp=qu.front();
                 qu.pop();
-                helper.push_back(temp->val);
+                lavelSum+=temp->val;
                 if(temp->left) qu.push(temp->left);
                 if(temp->right) qu.push(temp->right);
             }
             level++;
-            res.push_back(levelSum(helper));
-            helper.clear();
+            res.push_back(lavelSum);
+           
         }
         return klargestSum(res,k);
     }
