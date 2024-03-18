@@ -49,11 +49,7 @@ public:
             m[res[i]]++;
             maxfr=max(maxfr, m[res[i]]);
         }
-        // int maxfr=0;
-        // for(auto &x: m)
-        // {
-        //     maxfr=max(maxfr, x.second);
-        // }
+      
         res.clear();
         for(auto &x: m)
         {
