@@ -11,44 +11,37 @@
  */
 class Solution {
 public:
-    void levelwiseTraverse(TreeNode* root, int level, vector<int>&v)
+    void traverseLevelwise(TreeNode* root, vector<vector<int>>&res)
     {
-        if(!root) return;
-        else if(level==0)
-        {
-            v.push_back(root->val);
-        }
-        else{
-            levelwiseTraverse(root->left, level-1, v);
-            levelwiseTraverse(root->right, level-1, v);
-        }
-    }
-    int heightofBt(TreeNode* root)
-    {
-        if(!root) return 0;
-        int lh=heightofBt(root->left);
-        int rh=heightofBt(root->right);
-        return 1+max(lh,rh);
-    }
-    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
-        vector<vector<int>>ans;
-        int h=heightofBt(root);
-        for(int i=0;i<=h;i++)
+        queue<TreeNode*>qu;
+        int level=0;
+        qu.push(root);
+        while(!qu.empty())
         {
             vector<int>v;
-            levelwiseTraverse(root, i, v);
-            if(!v.empty())
+            int n=qu.size();
+            while(n--)
             {
-                ans.push_back(v);
+                TreeNode* temp=qu.front(); qu.pop();
+                v.push_back(temp->val);
+                if(temp->left) qu.push(temp->left);
+                if(temp->right) qu.push(temp->right);
             }
-        }
-        for(int i=0;i<ans.size();i++)
-        {
-            if(i%2!=0)
+            if(level%2!=0 && !v.empty())
             {
-                reverse(ans[i].begin(), ans[i].end());
+                reverse(v.begin(), v.end());
+                res.push_back(v);
             }
+            else{
+                res.push_back(v);
+            }
+            level++;
         }
-        return ans;
+    }
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        vector<vector<int>>res;
+        if(!root) return res;
+        traverseLevelwise(root, res);
+        return res;
     }
 };
